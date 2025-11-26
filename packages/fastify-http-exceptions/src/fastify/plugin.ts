@@ -1,4 +1,4 @@
-import type { FastifyInstance, FastifyPluginCallback, FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyPluginCallback, FastifyReply } from 'fastify';
 import fp from 'fastify-plugin';
 import type { HTTPException } from '../core/httpException.js';
 import { isHTTPException, RedirectException } from '../core/httpException.js';
@@ -18,11 +18,7 @@ export interface FastifyHttpExceptionsOptions {
 }
 
 const fastifyHttpExceptionsPlugin: FastifyPluginCallback<FastifyHttpExceptionsOptions> = (fastify, options, done) => {
-  const existingErrorHandler = (
-    fastify as FastifyInstance & {
-      _errorHandler?: (error: unknown, request: FastifyRequest, reply: FastifyReply) => unknown;
-    }
-  )._errorHandler;
+  const existingErrorHandler = fastify.errorHandler;
 
   fastify.setErrorHandler((error, request, reply) => {
     if (isHTTPException(error)) {

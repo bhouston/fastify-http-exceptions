@@ -20,6 +20,10 @@ The core utilities are framework‑agnostic; the Fastify plugin was created out 
 
 > **Runtime requirements:** Node.js `>= 24` and Fastify `^5.0.0`. This is an **ESM-only** package.
 
+### Usage Warning
+
+- You must configure this plugin ahead of most other plugins, otherwise they may consume the exceptions themselves.
+
 ---
 
 ## Installation
