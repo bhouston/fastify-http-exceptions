@@ -16,6 +16,13 @@ describe('basic-example demo server', () => {
     expect(response.json()).toEqual({ error: 'Invalid user id' });
   });
 
+  it('returns 400 Bad Request for POST /users with error message', async () => {
+    const app = await buildServer();
+    const response = await app.inject({ method: 'POST', url: '/users' });
+    expect(response.statusCode).toBe(400);
+    expect(response.json()).toEqual({ error: "Username is already taken, username: 'blarg'" });
+  });
+
   it('returns 404 Not Found for missing user', async () => {
     const app = await buildServer();
     const response = await app.inject({ method: 'GET', url: '/users/404' });

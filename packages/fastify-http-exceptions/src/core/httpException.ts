@@ -1,7 +1,5 @@
-import { errorStatusCodes, formatForbiddenMessage, formatNotFoundMessage } from './httpStatusHelpers.js';
+import { formatForbiddenMessage, formatNotFoundMessage } from './httpStatusHelpers.js';
 import { HTTPStatusCode } from './statusCodes.js';
-
-const ALL_HTTP_STATUS_CODES: readonly number[] = Object.values(HTTPStatusCode);
 
 export abstract class HTTPException extends Error {
   abstract readonly statusCode: number;
@@ -349,35 +347,8 @@ export class NetworkAuthenticationRequiredException extends HTTPException {
   }
 }
 
-export function httpExceptionToResponse(exception: HTTPException): {
-  statusCode: number;
-  body?: { error: string };
-  redirectUrl?: string;
-} {
-  if (exception instanceof RedirectException) {
-    return { statusCode: exception.statusCode, redirectUrl: exception.redirectUrl };
-  }
-
-  if (errorStatusCodes.includes(exception.statusCode as (typeof errorStatusCodes)[number])) {
-    return { statusCode: exception.statusCode, body: { error: exception.message } };
-  }
-
-  return { statusCode: HTTPStatusCode.INTERNAL_SERVER_ERROR, body: { error: exception.message } };
-}
-
 export const isHTTPException = (error: unknown): error is HTTPException => {
   if (error instanceof HTTPException) {
-    return true;
-  }
-
-  if (
-    error &&
-    typeof error === 'object' &&
-    'statusCode' in error &&
-    typeof (error as HTTPException).statusCode === 'number' &&
-    typeof (error as HTTPException).message === 'string' &&
-    ALL_HTTP_STATUS_CODES.includes((error as HTTPException).statusCode)
-  ) {
     return true;
   }
 

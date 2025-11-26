@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
   BadGatewayException,
   BadRequestException,
@@ -10,7 +10,6 @@ import {
   GoneException,
   HTTPException,
   HttpVersionNotSupportedException,
-  httpExceptionToResponse,
   ImATeapotException,
   InsufficientStorageException,
   InternalServerErrorException,
@@ -47,6 +46,7 @@ import {
   VariantAlsoNegotiatesException,
 } from './core/httpException.js';
 import { HTTPStatusCode } from './core/statusCodes.js';
+import { httpExceptionToResponse } from './fastify/plugin.js';
 
 describe('httpException', () => {
   describe('exception constructors', () => {
@@ -141,81 +141,101 @@ describe('httpException', () => {
   describe('httpExceptionToResponse', () => {
     it('should convert BadRequestException to response', () => {
       const exception = new BadRequestException('Invalid input');
-      const response = httpExceptionToResponse(exception);
+      const reply = {
+        code: (_statusCode: number) => reply,
+        send: (_body: unknown) => reply,
+      } as unknown as import('fastify').FastifyReply;
+      const codeSpy = vi.spyOn(reply, 'code');
+      const sendSpy = vi.spyOn(reply, 'send');
 
-      expect(response.statusCode).toBe(HTTPStatusCode.BAD_REQUEST);
-      if ('body' in response) {
-        expect(response.body).toEqual({ error: 'Invalid input' });
-      }
+      httpExceptionToResponse(exception, reply);
+
+      expect(codeSpy).toHaveBeenCalledWith(HTTPStatusCode.BAD_REQUEST);
+      expect(sendSpy).toHaveBeenCalledWith({ error: 'Invalid input' });
     });
 
     it('should convert UnauthorizedException to response', () => {
       const exception = new UnauthorizedException('Not authenticated');
-      const response = httpExceptionToResponse(exception);
+      const reply = {
+        code: (_statusCode: number) => reply,
+        send: (_body: unknown) => reply,
+      } as unknown as import('fastify').FastifyReply;
+      const codeSpy = vi.spyOn(reply, 'code');
+      const sendSpy = vi.spyOn(reply, 'send');
 
-      expect(response.statusCode).toBe(HTTPStatusCode.UNAUTHORIZED);
-      if ('body' in response) {
-        expect(response.body).toEqual({ error: 'Not authenticated' });
-      }
+      httpExceptionToResponse(exception, reply);
+
+      expect(codeSpy).toHaveBeenCalledWith(HTTPStatusCode.UNAUTHORIZED);
+      expect(sendSpy).toHaveBeenCalledWith({ error: 'Not authenticated' });
     });
 
     it('should convert ForbiddenException to response', () => {
       const exception = new ForbiddenException('user');
-      const response = httpExceptionToResponse(exception);
+      const reply = {
+        code: (_statusCode: number) => reply,
+        send: (_body: unknown) => reply,
+      } as unknown as import('fastify').FastifyReply;
+      const codeSpy = vi.spyOn(reply, 'code');
+      const sendSpy = vi.spyOn(reply, 'send');
 
-      expect(response.statusCode).toBe(HTTPStatusCode.FORBIDDEN);
-      if ('body' in response) {
-        expect(response.body).toEqual({ error: 'Access denied to user' });
-      }
+      httpExceptionToResponse(exception, reply);
+
+      expect(codeSpy).toHaveBeenCalledWith(HTTPStatusCode.FORBIDDEN);
+      expect(sendSpy).toHaveBeenCalledWith({ error: 'Access denied to user' });
     });
 
     it('should convert NotFoundException to response', () => {
       const exception = new NotFoundException('asset');
-      const response = httpExceptionToResponse(exception);
+      const reply = {
+        code: (_statusCode: number) => reply,
+        send: (_body: unknown) => reply,
+      } as unknown as import('fastify').FastifyReply;
+      const codeSpy = vi.spyOn(reply, 'code');
+      const sendSpy = vi.spyOn(reply, 'send');
 
-      expect(response.statusCode).toBe(HTTPStatusCode.NOT_FOUND);
-      if ('body' in response) {
-        expect(response.body).toEqual({ error: 'asset not found' });
-      }
+      httpExceptionToResponse(exception, reply);
+
+      expect(codeSpy).toHaveBeenCalledWith(HTTPStatusCode.NOT_FOUND);
+      expect(sendSpy).toHaveBeenCalledWith({ error: 'asset not found' });
     });
 
     it('should convert InternalServerErrorException to response', () => {
       const exception = new InternalServerErrorException('Server error');
-      const response = httpExceptionToResponse(exception);
+      const reply = {
+        code: (_statusCode: number) => reply,
+        send: (_body: unknown) => reply,
+      } as unknown as import('fastify').FastifyReply;
+      const codeSpy = vi.spyOn(reply, 'code');
+      const sendSpy = vi.spyOn(reply, 'send');
 
-      expect(response.statusCode).toBe(HTTPStatusCode.INTERNAL_SERVER_ERROR);
-      if ('body' in response) {
-        expect(response.body).toEqual({ error: 'Server error' });
-      }
+      httpExceptionToResponse(exception, reply);
+
+      expect(codeSpy).toHaveBeenCalledWith(HTTPStatusCode.INTERNAL_SERVER_ERROR);
+      expect(sendSpy).toHaveBeenCalledWith({ error: 'Server error' });
     });
 
     it('should convert TemporaryRedirectException to response', () => {
       const exception = new TemporaryRedirectException('https://example.com');
-      const response = httpExceptionToResponse(exception);
+      const reply = {
+        redirect: (_url: string, _statusCode?: number) => reply,
+      } as unknown as import('fastify').FastifyReply;
+      const redirectSpy = vi.spyOn(reply, 'redirect' as never);
 
-      expect(response.statusCode).toBe(HTTPStatusCode.REDIRECT);
-      expect('redirectUrl' in response && response.redirectUrl).toBe('https://example.com');
+      httpExceptionToResponse(exception, reply);
+
+      expect(redirectSpy).toHaveBeenCalledWith('https://example.com', HTTPStatusCode.REDIRECT);
     });
 
     it('should convert PermanentRedirectException to response', () => {
       const exception = new PermanentRedirectException('https://example.com');
-      const response = httpExceptionToResponse(exception);
+      const reply = {
+        redirect: (_url: string, _statusCode?: number) => reply,
+      } as unknown as import('fastify').FastifyReply;
+      const redirectSpy = vi.spyOn(reply, 'redirect' as never);
 
-      expect(response.statusCode).toBe(HTTPStatusCode.MOVED_PERMANENTLY);
-      expect('redirectUrl' in response && response.redirectUrl).toBe('https://example.com');
-    });
+      httpExceptionToResponse(exception, reply);
 
-    it('should handle non-error status codes with fallback', () => {
-      class CustomOkException extends HTTPException {
-        readonly statusCode = HTTPStatusCode.OK;
-      }
-      const exception = new CustomOkException('Weird ok');
-      const response = httpExceptionToResponse(exception);
-
-      expect(response.statusCode).toBe(HTTPStatusCode.INTERNAL_SERVER_ERROR);
-      if ('body' in response) {
-        expect(response.body).toEqual({ error: 'Weird ok' });
-      }
+      expect(redirectSpy).toHaveBeenCalledWith('https://example.com', HTTPStatusCode.MOVED_PERMANENTLY);
     });
   });
 
@@ -236,14 +256,6 @@ describe('httpException', () => {
       expect(isHTTPException(null)).toBe(false);
       expect(isHTTPException(undefined)).toBe(false);
       expect(isHTTPException({})).toBe(false);
-    });
-
-    it('should return true for objects with HTTPException shape', () => {
-      const mockException = {
-        statusCode: 400,
-        message: 'Bad request',
-      } as const;
-      expect(isHTTPException(mockException)).toBe(true);
     });
 
     it('should return false for objects with invalid status code', () => {
@@ -488,18 +500,32 @@ describe('httpException', () => {
 
     it('httpExceptionToResponse should handle non-basic HTTP exceptions using errorStatusCodes', () => {
       const exception = new ServiceUnavailableException('Service down');
-      const response = httpExceptionToResponse(exception);
+      const reply = {
+        code: (_statusCode: number) => reply,
+        send: (_body: unknown) => reply,
+      } as unknown as import('fastify').FastifyReply;
+      const codeSpy = vi.spyOn(reply, 'code');
+      const sendSpy = vi.spyOn(reply, 'send');
 
-      expect(response.statusCode).toBe(HTTPStatusCode.SERVICE_UNAVAILABLE);
-      expect(response.body).toEqual({ error: 'Service down' });
+      httpExceptionToResponse(exception, reply);
+
+      expect(codeSpy).toHaveBeenCalledWith(HTTPStatusCode.SERVICE_UNAVAILABLE);
+      expect(sendSpy).toHaveBeenCalledWith({ error: 'Service down' });
     });
 
     it('httpExceptionToResponse should handle TooManyRequestsException using errorStatusCodes', () => {
       const exception = new TooManyRequestsException();
-      const response = httpExceptionToResponse(exception);
+      const reply = {
+        code: (_statusCode: number) => reply,
+        send: (_body: unknown) => reply,
+      } as unknown as import('fastify').FastifyReply;
+      const codeSpy = vi.spyOn(reply, 'code');
+      const sendSpy = vi.spyOn(reply, 'send');
 
-      expect(response.statusCode).toBe(HTTPStatusCode.TOO_MANY_REQUESTS);
-      expect(response.body).toEqual({ error: 'Too many requests' });
+      httpExceptionToResponse(exception, reply);
+
+      expect(codeSpy).toHaveBeenCalledWith(HTTPStatusCode.TOO_MANY_REQUESTS);
+      expect(sendSpy).toHaveBeenCalledWith({ error: 'Too many requests' });
     });
   });
 });

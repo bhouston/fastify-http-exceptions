@@ -21,6 +21,10 @@ async function buildServer() {
 
   await app.register(fastifyHttpExceptions);
 
+  app.post('/users', async (_request, _reply) => {
+    throw new BadRequestException(`Username is already taken, username: 'blarg'`);
+  });
+
   app.get('/users/:id', async (request, reply) => {
     const id = (request.params as { id: string }).id;
 

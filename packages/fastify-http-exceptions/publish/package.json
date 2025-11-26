@@ -1,7 +1,7 @@
 {
   "name": "fastify-http-exceptions",
   "description": "A Fastify plugin and core utilities for typed HTTP exceptions and responses.",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
