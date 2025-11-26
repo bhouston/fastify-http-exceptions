@@ -2,7 +2,6 @@ import type { FastifyInstance, FastifyPluginCallback, FastifyReply, FastifyReque
 import fp from 'fastify-plugin';
 import { httpExceptionToResponse, isHTTPException } from '../core/httpException.js';
 import type { HTTPResponse } from '../core/httpResponse.js';
-import { isHTTPResponse } from '../core/httpResponse.js';
 import { sendHTTPResponse } from './sendHTTPResponse.js';
 
 export interface FastifyHttpExceptionsOptions {
@@ -37,13 +36,8 @@ const fastifyHttpExceptionsPlugin: FastifyPluginCallback<FastifyHttpExceptionsOp
     return reply.send(error);
   });
 
-  // biome-ignore lint/security/noSecrets: 'preSerialization' is a Fastify hook name, not a secret
-  fastify.addHook('preSerialization', async (_request, reply, payload) => {
-    if (isHTTPResponse(payload)) {
-      return sendHTTPResponse(reply, payload);
-    }
-    return payload;
-  });
+  // Note: plugin focuses on thrown HTTPExceptions; returned HTTPResponse values
+  // can be sent explicitly via reply.sendHTTP or by using the withHttpExceptions helper.
   done();
 };
 
