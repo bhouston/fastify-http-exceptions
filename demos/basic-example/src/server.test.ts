@@ -51,10 +51,17 @@ describe('basic-example demo server', () => {
     expect(response.json()).toEqual({ error: 'Something went wrong' });
   });
 
-  it('returns 302 Redirect for redirect route', async () => {
+  it('returns 302 Temporary Redirect for temporary redirect route', async () => {
     const app = await buildServer();
-    const response = await app.inject({ method: 'GET', url: '/redirect' });
+    const response = await app.inject({ method: 'GET', url: '/redirect/temporary' });
     expect(response.statusCode).toBe(302);
-    expect(response.headers.location).toBe('https://example.com');
+    expect(response.headers.location).toBe('https://example.com/temporary');
+  });
+
+  it('returns 301 Permanent Redirect for permanent redirect route', async () => {
+    const app = await buildServer();
+    const response = await app.inject({ method: 'GET', url: '/redirect/permanent' });
+    expect(response.statusCode).toBe(301);
+    expect(response.headers.location).toBe('https://example.com/permanent');
   });
 });

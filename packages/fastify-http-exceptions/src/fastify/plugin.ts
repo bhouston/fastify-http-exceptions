@@ -1,7 +1,6 @@
 import type { FastifyInstance, FastifyPluginCallback, FastifyReply, FastifyRequest } from 'fastify';
 import fp from 'fastify-plugin';
-import { httpExceptionToResponse, isHTTPException } from '../core/httpException.js';
-import { HTTPStatusCode } from '../core/statusCodes.js';
+import { httpExceptionToResponse, isHTTPException, RedirectException } from '../core/httpException.js';
 
 export interface FastifyHttpExceptionsOptions {
   logUnhandled?: boolean;
@@ -17,8 +16,11 @@ const fastifyHttpExceptionsPlugin: FastifyPluginCallback<FastifyHttpExceptionsOp
   fastify.setErrorHandler((error, request, reply) => {
     if (isHTTPException(error)) {
       const response = httpExceptionToResponse(error);
-      if (response.statusCode === HTTPStatusCode.REDIRECT && response.redirectUrl) {
-        return reply.redirect(response.redirectUrl);
+      if (error instanceof RedirectException && response.redirectUrl) {
+        return (reply as FastifyReply & { redirect: (url: string, statusCode?: number) => void }).redirect(
+          response.redirectUrl,
+          response.statusCode,
+        );
       }
 
       reply.code(response.statusCode);

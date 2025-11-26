@@ -5,7 +5,8 @@ import {
   ForbiddenException,
   InternalServerErrorException,
   NotFoundException,
-  RedirectException,
+  PermanentRedirectException,
+  TemporaryRedirectException,
   UnauthorizedException,
 } from 'fastify-http-exceptions/core';
 import * as z from 'zod';
@@ -49,8 +50,12 @@ async function buildServer() {
     throw new InternalServerErrorException('Something went wrong');
   });
 
-  app.get('/redirect', async () => {
-    throw new RedirectException('https://example.com');
+  app.get('/redirect/temporary', async () => {
+    throw new TemporaryRedirectException('https://example.com/temporary');
+  });
+
+  app.get('/redirect/permanent', async () => {
+    throw new PermanentRedirectException('https://example.com/permanent');
   });
 
   return app;

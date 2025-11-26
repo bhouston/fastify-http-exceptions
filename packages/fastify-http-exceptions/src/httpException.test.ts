@@ -7,7 +7,8 @@ import {
   InternalServerErrorException,
   isHTTPException,
   NotFoundException,
-  RedirectException,
+  PermanentRedirectException,
+  TemporaryRedirectException,
   UnauthorizedException,
 } from './core/httpException.js';
 import { HTTPStatusCode } from './core/statusCodes.js';
@@ -73,22 +74,32 @@ describe('httpException', () => {
       expect(exception.name).toBe('InternalServerErrorException');
     });
 
-    it('should create RedirectException with redirectUrl only', () => {
-      const exception = new RedirectException('https://example.com');
-      expect(exception).toBeInstanceOf(RedirectException);
+    it('should create TemporaryRedirectException with redirectUrl only', () => {
+      const exception = new TemporaryRedirectException('https://example.com');
+      expect(exception).toBeInstanceOf(TemporaryRedirectException);
       expect(exception).toBeInstanceOf(Error);
       expect(exception.statusCode).toBe(HTTPStatusCode.REDIRECT);
       expect(exception.redirectUrl).toBe('https://example.com');
-      expect(exception.message).toBe('Redirect to $redirectUrl');
-      expect(exception.name).toBe('RedirectException');
+      expect(exception.message).toBe('Temporary redirect to https://example.com');
+      expect(exception.name).toBe('TemporaryRedirectException');
     });
 
-    it('should create RedirectException with redirectUrl and message', () => {
-      const exception = new RedirectException('https://example.com', 'Custom redirect message');
-      expect(exception).toBeInstanceOf(RedirectException);
+    it('should create PermanentRedirectException with redirectUrl only', () => {
+      const exception = new PermanentRedirectException('https://example.com');
+      expect(exception).toBeInstanceOf(PermanentRedirectException);
+      expect(exception).toBeInstanceOf(Error);
+      expect(exception.statusCode).toBe(HTTPStatusCode.MOVED_PERMANENTLY);
+      expect(exception.redirectUrl).toBe('https://example.com');
+      expect(exception.message).toBe('Permanent redirect to https://example.com');
+      expect(exception.name).toBe('PermanentRedirectException');
+    });
+
+    it('should create TemporaryRedirectException with redirectUrl and message', () => {
+      const exception = new TemporaryRedirectException('https://example.com', 'Custom temp redirect');
+      expect(exception).toBeInstanceOf(TemporaryRedirectException);
       expect(exception.statusCode).toBe(HTTPStatusCode.REDIRECT);
       expect(exception.redirectUrl).toBe('https://example.com');
-      expect(exception.message).toBe('Custom redirect message');
+      expect(exception.message).toBe('Custom temp redirect');
     });
   });
 
@@ -143,24 +154,32 @@ describe('httpException', () => {
       }
     });
 
-    it('should convert RedirectException to response', () => {
-      const exception = new RedirectException('https://example.com');
+    it('should convert TemporaryRedirectException to response', () => {
+      const exception = new TemporaryRedirectException('https://example.com');
       const response = httpExceptionToResponse(exception);
 
       expect(response.statusCode).toBe(HTTPStatusCode.REDIRECT);
       expect('redirectUrl' in response && response.redirectUrl).toBe('https://example.com');
     });
 
-    it('should handle unknown status codes with fallback', () => {
-      class UnknownException extends HTTPException {
-        readonly statusCode = 418;
+    it('should convert PermanentRedirectException to response', () => {
+      const exception = new PermanentRedirectException('https://example.com');
+      const response = httpExceptionToResponse(exception);
+
+      expect(response.statusCode).toBe(HTTPStatusCode.MOVED_PERMANENTLY);
+      expect('redirectUrl' in response && response.redirectUrl).toBe('https://example.com');
+    });
+
+    it('should handle non-error status codes with fallback', () => {
+      class CustomOkException extends HTTPException {
+        readonly statusCode = HTTPStatusCode.OK;
       }
-      const exception = new UnknownException('Teapot error');
+      const exception = new CustomOkException('Weird ok');
       const response = httpExceptionToResponse(exception);
 
       expect(response.statusCode).toBe(HTTPStatusCode.INTERNAL_SERVER_ERROR);
       if ('body' in response) {
-        expect(response.body).toEqual({ error: 'Teapot error' });
+        expect(response.body).toEqual({ error: 'Weird ok' });
       }
     });
   });
@@ -172,7 +191,8 @@ describe('httpException', () => {
       expect(isHTTPException(new ForbiddenException('user'))).toBe(true);
       expect(isHTTPException(new NotFoundException('asset'))).toBe(true);
       expect(isHTTPException(new InternalServerErrorException('test'))).toBe(true);
-      expect(isHTTPException(new RedirectException('https://example.com'))).toBe(true);
+      expect(isHTTPException(new TemporaryRedirectException('https://example.com'))).toBe(true);
+      expect(isHTTPException(new PermanentRedirectException('https://example.com'))).toBe(true);
     });
 
     it('should return false for non-HTTPException errors', () => {
