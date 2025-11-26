@@ -51,7 +51,6 @@
     "@types/node": "^24",
     "node-mocks-http": "^1.16.1",
     "vitest": "^2.1.8",
-    "zod": "^3.24.2"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

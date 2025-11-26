@@ -10,7 +10,6 @@ import {
   RedirectException,
   UnauthorizedException,
 } from './core/httpException.js';
-import { isHTTPResponse } from './core/httpResponse.js';
 import { HTTPStatusCode } from './core/statusCodes.js';
 
 describe('httpException', () => {
@@ -198,29 +197,6 @@ describe('httpException', () => {
         message: 'Invalid',
       };
       expect(isHTTPException(mockException)).toBe(false);
-    });
-  });
-
-  describe('isHTTPResponse', () => {
-    it('should return true for valid HTTPResponse objects', () => {
-      expect(isHTTPResponse({ statusCode: 200, body: {} })).toBe(true);
-      expect(isHTTPResponse({ statusCode: 201, body: {} })).toBe(true);
-      expect(isHTTPResponse({ statusCode: 204 })).toBe(true);
-      expect(isHTTPResponse({ statusCode: 302, redirectUrl: 'https://example.com' })).toBe(true);
-      expect(isHTTPResponse({ statusCode: 400, body: { error: 'test' } })).toBe(true);
-      expect(isHTTPResponse({ statusCode: 401, body: { error: 'test' } })).toBe(true);
-      expect(isHTTPResponse({ statusCode: 403, body: { error: 'test' } })).toBe(true);
-      expect(isHTTPResponse({ statusCode: 404, body: { error: 'test' } })).toBe(true);
-      expect(isHTTPResponse({ statusCode: 500, body: { error: 'test' } })).toBe(true);
-    });
-
-    it('should return false for invalid responses', () => {
-      expect(isHTTPResponse({ statusCode: 999 })).toBe(false);
-      expect(isHTTPResponse({ statusCode: '200' })).toBe(false);
-      expect(isHTTPResponse({})).toBe(false);
-      expect(isHTTPResponse(null)).toBe(false);
-      expect(isHTTPResponse(undefined)).toBe(false);
-      expect(isHTTPResponse('string')).toBe(false);
     });
   });
 });

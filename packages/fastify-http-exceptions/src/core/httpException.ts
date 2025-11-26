@@ -1,4 +1,3 @@
-import { badRequest, type HTTPResponse, internalServerError, redirect, unauthorized } from './httpResponse.js';
 import type { ExceptionResource } from './httpStatusHelpers.js';
 import { formatForbiddenMessage, formatNotFoundMessage } from './httpStatusHelpers.js';
 import { HTTPStatusCode } from './statusCodes.js';
@@ -59,24 +58,24 @@ export class RedirectException extends HTTPException {
   }
 }
 
-export function httpExceptionToResponse(exception: HTTPException): HTTPResponse {
+export function httpExceptionToResponse(exception: HTTPException): {
+  statusCode: number;
+  body?: { error: string };
+  redirectUrl?: string;
+} {
   if (exception instanceof RedirectException) {
-    return redirect(exception.redirectUrl);
+    return { statusCode: HTTPStatusCode.REDIRECT, redirectUrl: exception.redirectUrl };
   }
 
   switch (exception.statusCode) {
     case HTTPStatusCode.BAD_REQUEST:
-      return badRequest(exception.message);
     case HTTPStatusCode.UNAUTHORIZED:
-      return unauthorized(exception.message);
     case HTTPStatusCode.FORBIDDEN:
-      return { statusCode: HTTPStatusCode.FORBIDDEN, body: { error: exception.message } };
     case HTTPStatusCode.NOT_FOUND:
-      return { statusCode: HTTPStatusCode.NOT_FOUND, body: { error: exception.message } };
     case HTTPStatusCode.INTERNAL_SERVER_ERROR:
-      return internalServerError(exception.message);
+      return { statusCode: exception.statusCode, body: { error: exception.message } };
     default:
-      return internalServerError(exception.message);
+      return { statusCode: HTTPStatusCode.INTERNAL_SERVER_ERROR, body: { error: exception.message } };
   }
 }
 

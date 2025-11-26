@@ -1,6 +1,6 @@
 import Fastify from 'fastify';
 import { fastifyHttpExceptions } from 'fastify-http-exceptions';
-import { BadRequestException, NotFoundException, noContent, ok } from 'fastify-http-exceptions/core';
+import { BadRequestException, NotFoundException } from 'fastify-http-exceptions/core';
 import * as z from 'zod';
 
 const UserSchema = z.object({
@@ -13,7 +13,7 @@ async function buildServer() {
 
   await app.register(fastifyHttpExceptions);
 
-  app.get('/users/:id', async (request) => {
+  app.get('/users/:id', async (request, reply) => {
     const id = (request.params as { id: string }).id;
 
     if (id === '0') {
@@ -24,11 +24,11 @@ async function buildServer() {
       throw new NotFoundException('user');
     }
 
-    const user = { id, name: 'Demo User' };
-    return ok(UserSchema, user);
+    const user = UserSchema.parse({ id, name: 'Demo User' });
+    return reply.send(user);
   });
 
-  app.delete('/users/:id', async () => noContent());
+  app.delete('/users/:id', async (_request, reply) => reply.status(204).send());
 
   return app;
 }
