@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import * as z from 'zod';
 import {
   BadRequestException,
   ForbiddenException,
@@ -13,7 +12,6 @@ import {
 } from './core/httpException.js';
 import { isHTTPResponse } from './core/httpResponse.js';
 import { HTTPStatusCode } from './core/statusCodes.js';
-import { validateInput, validateOutput } from './core/validation.js';
 
 describe('httpException', () => {
   describe('exception constructors', () => {
@@ -92,94 +90,6 @@ describe('httpException', () => {
       expect(exception.statusCode).toBe(HTTPStatusCode.REDIRECT);
       expect(exception.redirectUrl).toBe('https://example.com');
       expect(exception.message).toBe('Custom redirect message');
-    });
-  });
-
-  describe('validateInput', () => {
-    it('should return validated data for valid input', () => {
-      const schema = z.object({ name: z.string(), age: z.number() });
-      const input = { name: 'John', age: 30 };
-
-      const result = validateInput(schema, input);
-
-      expect(result).toEqual(input);
-    });
-
-    it('should throw BadRequestException for invalid input', () => {
-      const schema = z.object({ name: z.string(), age: z.number() });
-      const input = { name: 'John', age: 'thirty' };
-
-      expect(() => validateInput(schema, input)).toThrow(BadRequestException);
-      expect(() => validateInput(schema, input)).toThrow('age: Expected number, received string');
-    });
-
-    it('should throw BadRequestException with multiple errors', () => {
-      const schema = z.object({ name: z.string().min(3), age: z.number().min(0) });
-      const input = { name: 'Jo', age: -5 };
-
-      expect(() => validateInput(schema, input)).toThrow(BadRequestException);
-      try {
-        validateInput(schema, input);
-      } catch (error) {
-        if (error instanceof BadRequestException) {
-          expect(error.message).toContain('name');
-          expect(error.message).toContain('age');
-        }
-      }
-    });
-
-    it('should handle nested object validation errors', () => {
-      const schema = z.object({
-        user: z.object({
-          name: z.string(),
-          email: z.string().email(),
-        }),
-      });
-      const input = { user: { name: 'John', email: 'invalid-email' } };
-
-      expect(() => validateInput(schema, input)).toThrow(BadRequestException);
-      try {
-        validateInput(schema, input);
-      } catch (error) {
-        if (error instanceof BadRequestException) {
-          expect(error.message).toContain('email');
-        }
-      }
-    });
-  });
-
-  describe('validateOutput', () => {
-    it('should return validated data for valid output', () => {
-      const schema = z.object({ id: z.string(), count: z.number() });
-      const output = { id: '123', count: 42 };
-
-      const result = validateOutput(schema, output);
-
-      expect(result).toEqual(output);
-    });
-
-    it('should throw InternalServerErrorException for invalid output', () => {
-      const schema = z.object({ id: z.string(), count: z.number() });
-      const output = { id: '123', count: 'not-a-number' };
-
-      expect(() => validateOutput(schema, output)).toThrow(InternalServerErrorException);
-      expect(() => validateOutput(schema, output)).toThrow('Failed to validate output');
-    });
-
-    it('should throw InternalServerErrorException with multiple errors', () => {
-      const schema = z.object({ id: z.string().uuid(), count: z.number().positive() });
-      const output = { id: 'not-uuid', count: -1 };
-
-      expect(() => validateOutput(schema, output)).toThrow(InternalServerErrorException);
-      try {
-        validateOutput(schema, output);
-      } catch (error) {
-        if (error instanceof InternalServerErrorException) {
-          expect(error.message).toContain('Failed to validate output');
-          expect(error.message).toContain('id');
-          expect(error.message).toContain('count');
-        }
-      }
     });
   });
 

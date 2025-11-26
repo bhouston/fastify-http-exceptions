@@ -1,5 +1,5 @@
 import Fastify from 'fastify';
-import { fastifyHttpExceptions, withHttpExceptions } from 'fastify-http-exceptions';
+import { fastifyHttpExceptions } from 'fastify-http-exceptions';
 import { BadRequestException, NotFoundException, noContent, ok } from 'fastify-http-exceptions/core';
 import * as z from 'zod';
 
@@ -13,28 +13,22 @@ async function buildServer() {
 
   await app.register(fastifyHttpExceptions);
 
-  app.get(
-    '/users/:id',
-    withHttpExceptions(async (request, _reply) => {
-      const id = (request.params as { id: string }).id;
+  app.get('/users/:id', async (request) => {
+    const id = (request.params as { id: string }).id;
 
-      if (id === '0') {
-        throw new BadRequestException('Invalid user id');
-      }
+    if (id === '0') {
+      throw new BadRequestException('Invalid user id');
+    }
 
-      if (id === '404') {
-        throw new NotFoundException('user');
-      }
+    if (id === '404') {
+      throw new NotFoundException('user');
+    }
 
-      const user = { id, name: 'Demo User' };
-      return ok(UserSchema, user);
-    }),
-  );
+    const user = { id, name: 'Demo User' };
+    return ok(UserSchema, user);
+  });
 
-  app.delete(
-    '/users/:id',
-    withHttpExceptions(async () => noContent()),
-  );
+  app.delete('/users/:id', async () => noContent());
 
   return app;
 }

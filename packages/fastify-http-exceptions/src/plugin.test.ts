@@ -1,12 +1,9 @@
 import Fastify from 'fastify';
 import { describe, expect, it } from 'vitest';
 import * as z from 'zod';
-import { fastifyHttpExceptions, NotFoundException, ok, RedirectException } from './index.js';
-
-const UserSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-});
+import { NotFoundException } from './core/httpException.js';
+import type { HTTPResponse } from './core/httpResponse.js';
+import { fastifyHttpExceptions, RedirectException } from './index.js';
 
 describe('fastifyHttpExceptions plugin', () => {
   it('handles thrown HTTPException as 404', async () => {
@@ -39,7 +36,15 @@ describe('fastifyHttpExceptions plugin', () => {
     const app = Fastify();
     await app.register(fastifyHttpExceptions);
 
-    app.get('/user', async () => ok(UserSchema, { id: '1', name: 'Alice' }));
+    const UserSchema = z.object({
+      id: z.string(),
+      name: z.string(),
+    });
+
+    app.get('/user', async () => {
+      const body = UserSchema.parse({ id: '1', name: 'Alice' });
+      return { statusCode: 200, body } satisfies HTTPResponse<z.infer<typeof UserSchema>>;
+    });
 
     const response = await app.inject({ method: 'GET', url: '/user' });
     expect(response.statusCode).toBe(200);

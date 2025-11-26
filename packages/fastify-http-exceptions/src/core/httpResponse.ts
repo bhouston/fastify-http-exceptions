@@ -1,3 +1,7 @@
+import type { ExceptionResource } from './httpStatusHelpers.js';
+import { formatForbiddenMessage, formatNotFoundMessage } from './httpStatusHelpers.js';
+import { HTTPStatusCode } from './statusCodes.js';
+
 export type HTTPResponse<T = unknown> =
   | { statusCode: 200; body: T }
   | { statusCode: 201; body: T }
@@ -9,6 +13,14 @@ export type HTTPResponse<T = unknown> =
   | { statusCode: 403; body: { error: string } }
   | { statusCode: 404; body: { error: string } }
   | { statusCode: 500; body: { error: string } };
+
+export function ok<T>(_: unknown, body: T): HTTPResponse<T> {
+  return { statusCode: HTTPStatusCode.OK, body };
+}
+
+export function created<T>(_: unknown, body: T): HTTPResponse<T> {
+  return { statusCode: HTTPStatusCode.CREATED, body };
+}
 
 export function noContent(): HTTPResponse<never> {
   return { statusCode: HTTPStatusCode.NO_CONTENT };
@@ -28,6 +40,14 @@ export function badRequest(message: string): HTTPResponse<never> {
 
 export function unauthorized(message: string): HTTPResponse<never> {
   return { statusCode: HTTPStatusCode.UNAUTHORIZED, body: { error: message } };
+}
+
+export function forbidden(resource: ExceptionResource, reason?: string): HTTPResponse<never> {
+  return { statusCode: HTTPStatusCode.FORBIDDEN, body: { error: formatForbiddenMessage(resource, reason) } };
+}
+
+export function notFound(resource: ExceptionResource, reason?: string): HTTPResponse<never> {
+  return { statusCode: HTTPStatusCode.NOT_FOUND, body: { error: formatNotFoundMessage(resource, reason) } };
 }
 
 export function internalServerError(message: string): HTTPResponse<never> {

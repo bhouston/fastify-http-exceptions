@@ -5,8 +5,6 @@ import type { HTTPResponse } from '../core/httpResponse.js';
 import { isHTTPResponse } from '../core/httpResponse.js';
 import { sendHTTPResponse } from './sendHTTPResponse.js';
 
-// biome-ignore lint/security/noSecrets: hook name, not a secret
-
 export interface FastifyHttpExceptionsOptions {
   logUnhandled?: boolean;
 }
@@ -39,6 +37,7 @@ const fastifyHttpExceptionsPlugin: FastifyPluginCallback<FastifyHttpExceptionsOp
     return reply.send(error);
   });
 
+  // biome-ignore lint/security/noSecrets: 'preSerialization' is a Fastify hook name, not a secret
   fastify.addHook('preSerialization', async (_request, reply, payload) => {
     if (isHTTPResponse(payload)) {
       return sendHTTPResponse(reply, payload);
