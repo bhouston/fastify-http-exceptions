@@ -8,5 +8,3 @@ describe('basic-example demo server', () => {
     expect(response.statusCode).toBe(200);
   });
 });
-
-

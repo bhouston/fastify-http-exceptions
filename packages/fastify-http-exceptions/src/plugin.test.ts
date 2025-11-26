@@ -1,8 +1,7 @@
-import Fastify, { type FastifyReply } from 'fastify';
+import Fastify from 'fastify';
 import { describe, expect, it } from 'vitest';
 import * as z from 'zod';
 import { NotFoundException } from './core/httpException.js';
-import type { HTTPResponse } from './core/httpResponse.js';
 import { fastifyHttpExceptions, RedirectException } from './index.js';
 
 describe('fastifyHttpExceptions plugin', () => {
@@ -32,7 +31,7 @@ describe('fastifyHttpExceptions plugin', () => {
     expect(response.headers.location).toBe('https://example.com');
   });
 
-  it('handles HTTPResponse sent via reply.sendHTTP', async () => {
+  it('handles HTTPResponse returned from route', async () => {
     const app = Fastify();
     await app.register(fastifyHttpExceptions);
 
@@ -41,10 +40,9 @@ describe('fastifyHttpExceptions plugin', () => {
       name: z.string(),
     });
 
-    app.get('/user', async (_request, reply) => {
+    app.get('/user', async () => {
       const body = UserSchema.parse({ id: '1', name: 'Alice' });
-      const httpResponse: HTTPResponse<z.infer<typeof UserSchema>> = { statusCode: 200, body };
-      return (reply as FastifyReply & { sendHTTP<_T>(res: HTTPResponse<_T>): FastifyReply }).sendHTTP(httpResponse);
+      return { statusCode: 200, body };
     });
 
     const response = await app.inject({ method: 'GET', url: '/user' });

@@ -1,4 +1,4 @@
-import Fastify, { type FastifyReply } from 'fastify';
+import Fastify from 'fastify';
 import { fastifyHttpExceptions } from 'fastify-http-exceptions';
 import { BadRequestException, NotFoundException, noContent, ok } from 'fastify-http-exceptions/core';
 import * as z from 'zod';
@@ -13,7 +13,7 @@ async function buildServer() {
 
   await app.register(fastifyHttpExceptions);
 
-  app.get('/users/:id', async (request, reply) => {
+  app.get('/users/:id', async (request) => {
     const id = (request.params as { id: string }).id;
 
     if (id === '0') {
@@ -25,16 +25,10 @@ async function buildServer() {
     }
 
     const user = { id, name: 'Demo User' };
-    return (reply as FastifyReply & { sendHTTP<_T>(response: ReturnType<typeof ok>): FastifyReply }).sendHTTP(
-      ok(UserSchema, user),
-    );
+    return ok(UserSchema, user);
   });
 
-  app.delete('/users/:id', async (_request, reply) =>
-    (reply as FastifyReply & { sendHTTP<_T>(response: ReturnType<typeof noContent>): FastifyReply }).sendHTTP(
-      noContent(),
-    ),
-  );
+  app.delete('/users/:id', async () => noContent());
 
   return app;
 }
