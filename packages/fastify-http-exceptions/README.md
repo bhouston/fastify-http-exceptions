@@ -1,5 +1,10 @@
 # fastify-http-exceptions
 
+[![NPM Package][npm]][npm-url]
+[![NPM Downloads][npm-downloads]][npmtrends-url]
+[![Tests][tests-badge]][tests-url]
+[![Coverage][coverage-badge]][coverage-url]
+
 A Fastify plugin and core utilities for typed HTTP exceptions. Provides a small, opinionated HTTP exception model that plays nicely with Fastify but is not tightly coupled to it.
 
 ## Installation
@@ -47,4 +52,13 @@ If you only want the core HTTP exception helpers without Fastify, import from th
 ```ts
 import { HTTPException, NotFoundException } from 'fastify-http-exceptions/core';
 ```
+
+[npm]: https://img.shields.io/npm/v/fastify-http-exceptions
+[npm-url]: https://www.npmjs.com/package/fastify-http-exceptions
+[npm-downloads]: https://img.shields.io/npm/dw/fastify-http-exceptions
+[npmtrends-url]: https://www.npmtrends.com/fastify-http-exceptions
+[tests-badge]: https://github.com/bhouston/fastify-http-exceptions/workflows/Tests/badge.svg
+[tests-url]: https://github.com/bhouston/fastify-http-exceptions/actions/workflows/test.yml
+[coverage-badge]: https://codecov.io/gh/bhouston/fastify-http-exceptions/branch/main/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/bhouston/fastify-http-exceptions
 
