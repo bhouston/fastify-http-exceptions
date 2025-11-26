@@ -28,12 +28,6 @@ The core utilities are framework‑agnostic; the Fastify plugin was created out 
 pnpm add fastify-http-exceptions fastify
 ```
 
-If you want to mirror the examples that use Zod for validation, also install:
-
-```sh
-pnpm add zod
-```
-
 ---
 
 ## Basic Usage with Fastify
@@ -47,12 +41,6 @@ import {
   NotFoundException,
   ForbiddenException,
 } from 'fastify-http-exceptions/core';
-import * as z from 'zod';
-
-const UserSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-});
 
 const app = Fastify();
 
@@ -75,8 +63,7 @@ app.get('/users/:id', async (request, reply) => {
     throw new ForbiddenException('user', 'missing permission');
   }
 
-  const safeUser = UserSchema.parse(user);
-  return reply.send(safeUser);
+  return reply.send(user);
 });
 ```
 
@@ -212,8 +199,7 @@ cd packages/fastify-http-exceptions
 
 pnpm tsc         # one-off type-check
 pnpm dev         # watch mode
-pnpm test        # run unit tests
-pnpm test:watch  # watch tests
+pnpm vitest      # run unit tests
 ```
 
 ---
