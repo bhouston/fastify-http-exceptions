@@ -1,6 +1,13 @@
 import Fastify from 'fastify';
 import { fastifyHttpExceptions } from 'fastify-http-exceptions';
-import { BadRequestException, NotFoundException } from 'fastify-http-exceptions/core';
+import {
+  BadRequestException,
+  ForbiddenException,
+  InternalServerErrorException,
+  NotFoundException,
+  RedirectException,
+  UnauthorizedException,
+} from 'fastify-http-exceptions/core';
 import * as z from 'zod';
 
 const UserSchema = z.object({
@@ -29,6 +36,22 @@ async function buildServer() {
   });
 
   app.delete('/users/:id', async (_request, reply) => reply.status(204).send());
+
+  app.get('/auth/unauthorized', async () => {
+    throw new UnauthorizedException('Not authenticated');
+  });
+
+  app.get('/auth/forbidden', async () => {
+    throw new ForbiddenException('user', 'not in org');
+  });
+
+  app.get('/server-error', async () => {
+    throw new InternalServerErrorException('Something went wrong');
+  });
+
+  app.get('/redirect', async () => {
+    throw new RedirectException('https://example.com');
+  });
 
   return app;
 }

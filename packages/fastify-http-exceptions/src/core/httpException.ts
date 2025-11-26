@@ -1,6 +1,7 @@
-import type { ExceptionResource } from './httpStatusHelpers.js';
 import { formatForbiddenMessage, formatNotFoundMessage } from './httpStatusHelpers.js';
 import { HTTPStatusCode } from './statusCodes.js';
+
+const ALL_HTTP_STATUS_CODES: readonly number[] = Object.values(HTTPStatusCode);
 
 export abstract class HTTPException extends Error {
   abstract readonly statusCode: number;
@@ -27,18 +28,18 @@ export class UnauthorizedException extends HTTPException {
   readonly statusCode = HTTPStatusCode.UNAUTHORIZED;
 }
 
-export class ForbiddenException extends HTTPException {
+export class ForbiddenException<Resource extends string = string> extends HTTPException {
   readonly statusCode = HTTPStatusCode.FORBIDDEN;
 
-  constructor(resource: ExceptionResource, reason?: string) {
+  constructor(resource: Resource, reason?: string) {
     super(formatForbiddenMessage(resource, reason));
   }
 }
 
-export class NotFoundException extends HTTPException {
+export class NotFoundException<Resource extends string = string> extends HTTPException {
   readonly statusCode = HTTPStatusCode.NOT_FOUND;
 
-  constructor(resource: ExceptionResource, reason?: string) {
+  constructor(resource: Resource, reason?: string) {
     super(formatNotFoundMessage(resource, reason));
   }
 }
@@ -90,7 +91,7 @@ export const isHTTPException = (error: unknown): error is HTTPException => {
     'statusCode' in error &&
     typeof (error as HTTPException).statusCode === 'number' &&
     typeof (error as HTTPException).message === 'string' &&
-    [400, 401, 403, 404, 500, 302].includes((error as HTTPException).statusCode)
+    ALL_HTTP_STATUS_CODES.includes((error as HTTPException).statusCode)
   ) {
     return true;
   }
