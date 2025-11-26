@@ -1,6 +1,6 @@
 {
   "name": "fastify-http-exceptions-monorepo",
-  "version": "0.9.0",
+  "version": "0.0.0",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.17.0",
@@ -8,7 +8,7 @@
     "build": "pnpm -r build",
     "dev": "pnpm -r --parallel dev",
     "start": "pnpm --filter basic-example start",
-    "publish": "pnpm --filter fastify-http-exceptions publish",
+    "release": "pnpm --filter fastify-http-exceptions run publish:dist",
     "clean": "rimraf dist packages/**/dist demos/**/dist .nx node_modules packages/**/node_modules demos/**/node_modules",
     "check": "biome check --write",
     "tsc": "pnpm -r tsc",
