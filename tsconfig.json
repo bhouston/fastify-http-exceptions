@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "lib": ["ESNext", "dom", "dom.iterable"],
+    "typeRoots": ["node_modules/@types", "node_modules/@webgpu/types"],
+    "strict": true,
+    "alwaysStrict": true,
+    "strictFunctionTypes": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "resolveJsonModule": false,
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "sourceMap": true,
+    "incremental": true
+  }
+}
+
+

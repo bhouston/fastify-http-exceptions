@@ -1,0 +1,24 @@
+{
+  "name": "basic-example",
+  "type": "module",
+  "src": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "node --no-warnings --experimental-strip-types --experimental-transform-types --watch --watch-preserve-output src/server.ts",
+    "start": "node --no-warnings --experimental-strip-types --experimental-transform-types src/server.ts",
+    "tsc": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "fastify": "^5.0.0",
+    "fastify-http-exceptions": "workspace:*",
+    "json-schema-to-ts": "^3.1.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^2.1.8",
+    "vitest": "^2.1.8"
+  }
+}
+
+

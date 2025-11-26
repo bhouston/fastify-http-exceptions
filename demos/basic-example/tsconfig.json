@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.node.json",
+  "include": ["src"],
+  "compilerOptions": {
+    "module": "NodeNext",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "declaration": false,
+    "moduleResolution": "NodeNext"
+  }
+}
+
+
