@@ -1,7 +1,7 @@
 {
   "name": "fastify-http-exceptions",
   "description": "A Fastify plugin and core utilities for typed HTTP exceptions and responses.",
-  "version": "0.9.5",
+  "version": "1.2.5",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -65,7 +65,7 @@
     "tsc": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
-    "publish:dist": "pnpm build && rm -rf ./publish && mkdir ./publish && cp ./package.json ./publish/package.json && cp ../../LICENSE ./publish/LICENSE && cp ../../README.md ./publish/README.md && cp -r ./dist ./publish/dist && test -f ./publish/README.md || (echo 'ERROR: README.md not found in publish folder' && exit 1) && npm publish ./publish/ --access public"
+    "release": "pnpm build && rm -rf ./publish && mkdir ./publish && cp ./package.json ./publish/package.json && cp ../../LICENSE ./publish/LICENSE && cp ../../README.md ./publish/README.md && cp -r ./dist ./publish/dist && test -f ./publish/README.md || (echo 'ERROR: README.md not found in publish folder' && exit 1) && npm publish ./publish/ --access public"
   }
 }
 
