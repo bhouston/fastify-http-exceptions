@@ -9,6 +9,7 @@
     "dev": "pnpm -r --parallel dev",
     "start": "pnpm --filter basic-example start",
     "release": "pnpm --filter fastify-http-exceptions run publish:dist",
+    "make-release": "node scripts/make-release.ts packages/fastify-http-exceptions",
     "clean": "rimraf dist packages/**/dist demos/**/dist .nx node_modules packages/**/node_modules demos/**/node_modules",
     "check": "biome check --write",
     "tsc": "pnpm -r tsc",

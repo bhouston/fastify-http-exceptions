@@ -1,4 +1,4 @@
-## fastify-http-exceptions
+# Fastify HTTP Exceptions
 
 [![NPM Package][npm]][npm-url]
 [![NPM Downloads][npm-downloads]][npmtrends-url]
