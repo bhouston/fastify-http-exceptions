@@ -180,7 +180,7 @@ If you want to contribute or run the plugin locally:
 pnpm install
 
 # type-check all packages
-pnpm tsc
+pnpm tsgo
 
 # run Biome checks (format + lint)
 pnpm check
@@ -201,7 +201,7 @@ You can also work directly inside the package:
 ```sh
 cd packages/fastify-http-exceptions
 
-pnpm tsc         # one-off type-check
+pnpm tsgo         # one-off type-check
 pnpm dev         # watch mode
 pnpm vitest      # run unit tests
 ```

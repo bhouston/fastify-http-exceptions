@@ -3,10 +3,10 @@
   "type": "module",
   "src": "src/index.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsgo",
     "dev": "node --no-warnings --experimental-strip-types --experimental-transform-types --watch --watch-preserve-output src/server.ts",
     "start": "node --no-warnings --experimental-strip-types --experimental-transform-types src/server.ts",
-    "tsc": "tsc --noEmit",
+    "tsgo": "tsgo --noEmit",
     "test": "vitest run"
   },
   "dependencies": {

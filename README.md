@@ -180,7 +180,7 @@ If you want to contribute or run the plugin locally:
 pnpm install
 
 # type-check all packages
-pnpm tsc
+pnpm tsgo
 
 # run Biome checks (format + lint)
 pnpm check
@@ -196,39 +196,10 @@ pnpm dev          # run all dev targets in parallel
 pnpm start        # start the basic-example demo
 ```
 
-You can also work directly inside the package:
+Make a release
 
 ```sh
-cd packages/fastify-http-exceptions
-
-pnpm tsc         # one-off type-check
-pnpm dev         # watch mode
-pnpm vitest      # run unit tests
-```
-
----
-
-## Publishing
-
-**IMPORTANT:** Always publish via the **monorepo root** using the `release` script, **not** via `pnpm publish` directly inside the package directory.
-
-From the repository root:
-
-```sh
-pnpm run release
-```
-
-This will:
-
-- Build the package.
-- Copy `LICENSE` and this root `README.md` into the package’s publish folder.
-- Publish the package to npm with the correct metadata and README.
-
-After publishing, remember to push commits and tags:
-
-```sh
-git push
-git push --tags
+pnpm make-release
 ```
 
 ---
