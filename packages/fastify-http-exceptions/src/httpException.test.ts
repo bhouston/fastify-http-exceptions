@@ -472,6 +472,16 @@ describe('httpException', () => {
   });
 
   describe('RedirectException behavior', () => {
+    it('should use fallback message when message is undefined in RedirectException constructor', () => {
+      // Create a test subclass to test the abstract RedirectException constructor fallback
+      class TestRedirectException extends RedirectException {
+        readonly statusCode = HTTPStatusCode.REDIRECT;
+      }
+      const exception = new TestRedirectException('https://example.com/test');
+      expect(exception.redirectUrl).toBe('https://example.com/test');
+      expect(exception.message).toBe('Redirect to https://example.com/test');
+    });
+
     it('should set redirectUrl and default message for TemporaryRedirectException', () => {
       const exception = new TemporaryRedirectException('https://example.com/temp');
       expect(exception).toBeInstanceOf(RedirectException);

@@ -35,31 +35,30 @@ function main() {
     rmSync(publishPath, { recursive: true, force: true });
   }
   mkdirSync(publishPath, { recursive: true });
-  
+
   console.log(`Building package`);
-   execSync('pnpm -s build', { cwd: resolvedPackagePath, stdio: 'inherit' });
-  
+  execSync('pnpm -s build', { cwd: resolvedPackagePath, stdio: 'inherit' });
+
   console.log('Copying files to publish directory...');
- 
+
   // Copy dist directory
   console.log(`Copying dist directory`);
   const distPath = join(resolvedPackagePath, 'dist');
-    if (! existsSync(distPath)) {
-        throw new Error(`Error: dist directory not found at ${distPath}`);
-    }
-    cpSync(distPath, join(publishPath, 'dist'), { recursive: true });
-    
+  if (!existsSync(distPath)) {
+    throw new Error(`Error: dist directory not found at ${distPath}`);
+  }
+  cpSync(distPath, join(publishPath, 'dist'), { recursive: true });
+
   console.log(`Copying package.json`);
   cpSync(packageJsonPath, join(publishPath, 'package.json'));
 
-  
   console.log(`Copying LICENSE from root`);
   const licensePath = join(rootPath, 'LICENSE');
   if (!existsSync(licensePath)) {
     throw new Error(`Error: LICENSE not found at ${licensePath}`);
   }
-    cpSync(licensePath, join(publishPath, 'LICENSE'));
-  
+  cpSync(licensePath, join(publishPath, 'LICENSE'));
+
   console.log(`Copying README from root`);
   const readmePath = join(rootPath, 'README.md');
   if (!existsSync(readmePath)) {

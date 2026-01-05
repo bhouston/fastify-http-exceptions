@@ -1,7 +1,7 @@
 import type { FastifyPluginCallback, FastifyReply } from 'fastify';
 import fp from 'fastify-plugin';
 import type { HTTPException } from '../core/httpException.js';
-import { isHTTPException, RedirectException } from '../core/httpException.js';
+import { InternalServerErrorException, isHTTPException, RedirectException } from '../core/httpException.js';
 
 export function httpExceptionToResponse(exception: HTTPException, reply: FastifyReply): void {
   if (exception instanceof RedirectException) {
@@ -22,6 +22,10 @@ const fastifyHttpExceptionsPlugin: FastifyPluginCallback<FastifyHttpExceptionsOp
 
   fastify.setErrorHandler((error, request, reply) => {
     if (isHTTPException(error)) {
+      // log the stack upon internal server error here.
+      if (error instanceof InternalServerErrorException) {
+        fastify.log.error(`Internal server error: ${error.message}\n${error.stack}`);
+      }
       return httpExceptionToResponse(error, reply);
     }
 
