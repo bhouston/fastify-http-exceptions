@@ -8,12 +8,11 @@
     "build": "pnpm -r build",
     "dev": "pnpm -r --parallel dev",
     "start": "pnpm --filter basic-example start",
-    "release": "pnpm --filter fastify-http-exceptions run publish:dist",
     "make-release": "node scripts/make-release.ts packages/fastify-http-exceptions",
     "clean": "rimraf dist packages/**/dist demos/**/dist .nx node_modules packages/**/node_modules demos/**/node_modules",
-    "check": "biome check --write",
-    "tsgo": "pnpm -r tsgo",
-    "cloc": "npx cloc * --exclude-dir=node_modules,dist,.nx,.next,build"
+    "tsgo": "pnpm -r tsgo",  
+    "test": "pnpm vitest",
+    "lint": "pnpm biome check"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.4",
