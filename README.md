@@ -214,7 +214,9 @@ This plugin was born out of the practical need to **standardize HTTP error handl
 
 If you have suggestions, issues, or ideas for additional exception helpers, please open an issue or PR.
 
----
+## Author
+
+[Ben Houston](https://benhouston3d.com), Sponsored by [Land of Assets](https://landofassets.com)
 
 [npm]: https://img.shields.io/npm/v/fastify-http-exceptions
 [npm-url]: https://www.npmjs.com/package/fastify-http-exceptions
