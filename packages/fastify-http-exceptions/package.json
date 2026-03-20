@@ -1,7 +1,32 @@
 {
   "name": "fastify-http-exceptions",
+  "version": "1.3.0",
   "description": "A Fastify plugin and core utilities for typed HTTP exceptions and responses.",
-  "version": "1.2.5",
+  "keywords": [
+    "error",
+    "exceptions",
+    "fastify",
+    "http",
+    "nodejs",
+    "plugin",
+    "typescript"
+  ],
+  "homepage": "https://github.com/bhouston/fastify-http-exceptions#readme",
+  "bugs": {
+    "url": "https://github.com/bhouston/fastify-http-exceptions/issues"
+  },
+  "license": "MIT",
+  "author": "Ben Houston <neuralsoft@gmail.com> (https://benhouston3d.com)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhouston/fastify-http-exceptions"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,49 +40,9 @@
       "import": "./dist/core.js"
     }
   },
-  "license": "MIT",
-  "author": "Ben Houston <neuralsoft@gmail.com> (https://benhouston3d.com)",
-  "keywords": [
-    "http",
-    "error",
-    "exceptions",
-    "fastify",
-    "plugin",
-    "nodejs",
-    "typescript"
-  ],
-  "homepage": "https://github.com/bhouston/fastify-http-exceptions#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bhouston/fastify-http-exceptions"
-  },
-  "bugs": {
-    "url": "https://github.com/bhouston/fastify-http-exceptions/issues"
-  },
-  "files": [
-    "dist",
-    "package.json",
-    "README.md",
-    "LICENSE"
-  ],
-  "dependencies": {
-    "fastify": "^5.0.0",
-    "fastify-plugin": "^5.0.1"
-  },
-  "peerDependencies": {
-    "fastify": "^5.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^24",
-    "node-mocks-http": "^1.16.1",
-    "vitest": "^2.1.8"
-  },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
-  },
-  "engines": {
-    "node": ">=24.0.0"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "build": "tsgo",
@@ -66,7 +51,20 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "release": "pnpm build && rm -rf ./publish && mkdir ./publish && cp ./package.json ./publish/package.json && cp ../../LICENSE ./publish/LICENSE && cp ../../README.md ./publish/README.md && cp -r ./dist ./publish/dist && test -f ./publish/README.md || (echo 'ERROR: README.md not found in publish folder' && exit 1) && npm publish ./publish/ --access public"
+  },
+  "dependencies": {
+    "fastify": "^5.0.0",
+    "fastify-plugin": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "node-mocks-http": "^1.16.1",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "fastify": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=24.0.0"
   }
 }
-
-

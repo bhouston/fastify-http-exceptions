@@ -8,8 +8,8 @@ export abstract class HTTPException extends Error {
 
   readonly isHTTPException = true as const;
 
-  constructor(message: string) {
-    super(message);
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, options);
     this.message = message;
     this.name = new.target.name;
     if (Error.captureStackTrace) {
@@ -29,16 +29,16 @@ export class UnauthorizedException extends HTTPException {
 export class ForbiddenException<Resource extends string = string> extends HTTPException {
   readonly statusCode = HTTPStatusCode.FORBIDDEN;
 
-  constructor(resource: Resource, reason?: string) {
-    super(formatForbiddenMessage(resource, reason));
+  constructor(resource: Resource, reason?: string, options?: ErrorOptions) {
+    super(formatForbiddenMessage(resource, reason), options);
   }
 }
 
 export class NotFoundException<Resource extends string = string> extends HTTPException {
   readonly statusCode = HTTPStatusCode.NOT_FOUND;
 
-  constructor(resource: Resource, reason?: string) {
-    super(formatNotFoundMessage(resource, reason));
+  constructor(resource: Resource, reason?: string, options?: ErrorOptions) {
+    super(formatNotFoundMessage(resource, reason), options);
   }
 }
 
@@ -49,8 +49,8 @@ export class InternalServerErrorException extends HTTPException {
 export abstract class RedirectException extends HTTPException {
   readonly redirectUrl: string;
 
-  constructor(redirectUrl: string, message?: string) {
-    super(message ?? `Redirect to ${redirectUrl}`);
+  constructor(redirectUrl: string, message?: string, options?: ErrorOptions) {
+    super(message ?? `Redirect to ${redirectUrl}`, options);
     this.redirectUrl = redirectUrl;
   }
 }
@@ -58,136 +58,136 @@ export abstract class RedirectException extends HTTPException {
 export class TemporaryRedirectException extends RedirectException {
   readonly statusCode = HTTPStatusCode.REDIRECT;
 
-  constructor(redirectUrl: string, message?: string) {
-    super(redirectUrl, message ?? `Temporary redirect to ${redirectUrl}`);
+  constructor(redirectUrl: string, message?: string, options?: ErrorOptions) {
+    super(redirectUrl, message ?? `Temporary redirect to ${redirectUrl}`, options);
   }
 }
 
 export class PermanentRedirectException extends RedirectException {
   readonly statusCode = HTTPStatusCode.MOVED_PERMANENTLY;
 
-  constructor(redirectUrl: string, message?: string) {
-    super(redirectUrl, message ?? `Permanent redirect to ${redirectUrl}`);
+  constructor(redirectUrl: string, message?: string, options?: ErrorOptions) {
+    super(redirectUrl, message ?? `Permanent redirect to ${redirectUrl}`, options);
   }
 }
 
 export class PaymentRequiredException extends HTTPException {
   readonly statusCode = HTTPStatusCode.PAYMENT_REQUIRED;
 
-  constructor(message = 'Payment required') {
-    super(message);
+  constructor(message = 'Payment required', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class NotAcceptableException extends HTTPException {
   readonly statusCode = HTTPStatusCode.NOT_ACCEPTABLE;
 
-  constructor(message = 'Not acceptable') {
-    super(message);
+  constructor(message = 'Not acceptable', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class ProxyAuthenticationRequiredException extends HTTPException {
   readonly statusCode = HTTPStatusCode.PROXY_AUTHENTICATION_REQUIRED;
 
-  constructor(message = 'Proxy authentication required') {
-    super(message);
+  constructor(message = 'Proxy authentication required', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class RequestTimeoutException extends HTTPException {
   readonly statusCode = HTTPStatusCode.REQUEST_TIMEOUT;
 
-  constructor(message = 'Request timeout') {
-    super(message);
+  constructor(message = 'Request timeout', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class ConflictException extends HTTPException {
   readonly statusCode = HTTPStatusCode.CONFLICT;
 
-  constructor(message = 'Conflict') {
-    super(message);
+  constructor(message = 'Conflict', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class GoneException extends HTTPException {
   readonly statusCode = HTTPStatusCode.GONE;
 
-  constructor(message = 'Gone') {
-    super(message);
+  constructor(message = 'Gone', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class LengthRequiredException extends HTTPException {
   readonly statusCode = HTTPStatusCode.LENGTH_REQUIRED;
 
-  constructor(message = 'Length required') {
-    super(message);
+  constructor(message = 'Length required', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class PreconditionFailedException extends HTTPException {
   readonly statusCode = HTTPStatusCode.PRECONDITION_FAILED;
 
-  constructor(message = 'Precondition failed') {
-    super(message);
+  constructor(message = 'Precondition failed', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class PayloadTooLargeException extends HTTPException {
   readonly statusCode = HTTPStatusCode.PAYLOAD_TOO_LARGE;
 
-  constructor(message = 'Payload too large') {
-    super(message);
+  constructor(message = 'Payload too large', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class UriTooLongException extends HTTPException {
   readonly statusCode = HTTPStatusCode.URI_TOO_LONG;
 
-  constructor(message = 'URI too long') {
-    super(message);
+  constructor(message = 'URI too long', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class UnsupportedMediaTypeException extends HTTPException {
   readonly statusCode = HTTPStatusCode.UNSUPPORTED_MEDIA_TYPE;
 
-  constructor(message = 'Unsupported media type') {
-    super(message);
+  constructor(message = 'Unsupported media type', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class RangeNotSatisfiableException extends HTTPException {
   readonly statusCode = HTTPStatusCode.RANGE_NOT_SATISFIABLE;
 
-  constructor(message = 'Range not satisfiable') {
-    super(message);
+  constructor(message = 'Range not satisfiable', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class ExpectationFailedException extends HTTPException {
   readonly statusCode = HTTPStatusCode.EXPECTATION_FAILED;
 
-  constructor(message = 'Expectation failed') {
-    super(message);
+  constructor(message = 'Expectation failed', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class ImATeapotException extends HTTPException {
   readonly statusCode = HTTPStatusCode.IM_A_TEAPOT;
 
-  constructor(message = "I'm a teapot") {
-    super(message);
+  constructor(message = "I'm a teapot", options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class MisdirectedRequestException extends HTTPException {
   readonly statusCode = HTTPStatusCode.MISDIRECTED_REQUEST;
 
-  constructor(message = 'Misdirected request') {
-    super(message);
+  constructor(message = 'Misdirected request', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
@@ -195,48 +195,48 @@ export class UnprocessableEntityException extends HTTPException {
   readonly statusCode = HTTPStatusCode.UNPROCESSABLE_ENTITY;
 
   // biome-ignore lint/security/noSecrets: standard HTTP reason phrase, not a secret
-  constructor(message = 'Unprocessable entity error') {
-    super(message);
+  constructor(message = 'Unprocessable entity error', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class LockedException extends HTTPException {
   readonly statusCode = HTTPStatusCode.LOCKED;
 
-  constructor(message = 'Locked') {
-    super(message);
+  constructor(message = 'Locked', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class FailedDependencyException extends HTTPException {
   readonly statusCode = HTTPStatusCode.FAILED_DEPENDENCY;
 
-  constructor(message = 'Failed dependency') {
-    super(message);
+  constructor(message = 'Failed dependency', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class TooEarlyException extends HTTPException {
   readonly statusCode = HTTPStatusCode.TOO_EARLY;
 
-  constructor(message = 'Too early') {
-    super(message);
+  constructor(message = 'Too early', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class UpgradeRequiredException extends HTTPException {
   readonly statusCode = HTTPStatusCode.UPGRADE_REQUIRED;
 
-  constructor(message = 'Upgrade required') {
-    super(message);
+  constructor(message = 'Upgrade required', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class PreconditionRequiredException extends HTTPException {
   readonly statusCode = HTTPStatusCode.PRECONDITION_REQUIRED;
 
-  constructor(message = 'Precondition required') {
-    super(message);
+  constructor(message = 'Precondition required', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
@@ -245,8 +245,8 @@ export class TooManyRequestsException extends HTTPException {
 
   readonly retryAfterSeconds?: number;
 
-  constructor(message = 'Too many requests', retryAfterSeconds?: number) {
-    super(message);
+  constructor(message = 'Too many requests', retryAfterSeconds?: number, options?: ErrorOptions) {
+    super(message, options);
     this.retryAfterSeconds = retryAfterSeconds;
   }
 }
@@ -254,96 +254,96 @@ export class TooManyRequestsException extends HTTPException {
 export class RequestHeaderFieldsTooLargeException extends HTTPException {
   readonly statusCode = HTTPStatusCode.REQUEST_HEADER_FIELDS_TOO_LARGE;
 
-  constructor(message = 'Request header fields too large') {
-    super(message);
+  constructor(message = 'Request header fields too large', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class UnavailableForLegalReasonsException extends HTTPException {
   readonly statusCode = HTTPStatusCode.UNAVAILABLE_FOR_LEGAL_REASONS;
 
-  constructor(message = 'Unavailable for legal reasons') {
-    super(message);
+  constructor(message = 'Unavailable for legal reasons', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class NotImplementedException extends HTTPException {
   readonly statusCode = HTTPStatusCode.NOT_IMPLEMENTED;
 
-  constructor(message = 'Not implemented') {
-    super(message);
+  constructor(message = 'Not implemented', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class BadGatewayException extends HTTPException {
   readonly statusCode = HTTPStatusCode.BAD_GATEWAY;
 
-  constructor(message = 'Bad gateway') {
-    super(message);
+  constructor(message = 'Bad gateway', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class ServiceUnavailableException extends HTTPException {
   readonly statusCode = HTTPStatusCode.SERVICE_UNAVAILABLE;
 
-  constructor(message = 'Service unavailable') {
-    super(message);
+  constructor(message = 'Service unavailable', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class GatewayTimeoutException extends HTTPException {
   readonly statusCode = HTTPStatusCode.GATEWAY_TIMEOUT;
 
-  constructor(message = 'Gateway timeout') {
-    super(message);
+  constructor(message = 'Gateway timeout', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class HttpVersionNotSupportedException extends HTTPException {
   readonly statusCode = HTTPStatusCode.HTTP_VERSION_NOT_SUPPORTED;
 
-  constructor(message = 'HTTP version not supported') {
-    super(message);
+  constructor(message = 'HTTP version not supported', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class VariantAlsoNegotiatesException extends HTTPException {
   readonly statusCode = HTTPStatusCode.VARIANT_ALSO_NEGOTIATES;
 
-  constructor(message = 'Variant also negotiates') {
-    super(message);
+  constructor(message = 'Variant also negotiates', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class InsufficientStorageException extends HTTPException {
   readonly statusCode = HTTPStatusCode.INSUFFICIENT_STORAGE;
 
-  constructor(message = 'Insufficient storage') {
-    super(message);
+  constructor(message = 'Insufficient storage', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class LoopDetectedException extends HTTPException {
   readonly statusCode = HTTPStatusCode.LOOP_DETECTED;
 
-  constructor(message = 'Loop detected') {
-    super(message);
+  constructor(message = 'Loop detected', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class NotExtendedException extends HTTPException {
   readonly statusCode = HTTPStatusCode.NOT_EXTENDED;
 
-  constructor(message = 'Not extended') {
-    super(message);
+  constructor(message = 'Not extended', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 
 export class NetworkAuthenticationRequiredException extends HTTPException {
   readonly statusCode = HTTPStatusCode.NETWORK_AUTHENTICATION_REQUIRED;
 
-  constructor(message = 'Network authentication required') {
-    super(message);
+  constructor(message = 'Network authentication required', options?: ErrorOptions) {
+    super(message, options);
   }
 }
 

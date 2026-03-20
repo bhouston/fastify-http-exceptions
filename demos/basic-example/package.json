@@ -1,7 +1,6 @@
 {
   "name": "basic-example",
   "type": "module",
-  "src": "src/index.ts",
   "scripts": {
     "build": "tsgo",
     "dev": "node --no-warnings --experimental-strip-types --experimental-transform-types --watch --watch-preserve-output src/server.ts",
@@ -17,7 +16,6 @@
   "devDependencies": {
     "@vitest/ui": "^2.1.8",
     "vitest": "^2.1.8"
-  }
+  },
+  "src": "src/index.ts"
 }
-
-

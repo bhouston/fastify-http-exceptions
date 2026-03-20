@@ -41,10 +41,7 @@ Register the plugin once, then throw HTTP exceptions from your routes:
 ```ts
 import Fastify from 'fastify';
 import { fastifyHttpExceptions } from 'fastify-http-exceptions';
-import {
-  NotFoundException,
-  ForbiddenException,
-} from 'fastify-http-exceptions/core';
+import { NotFoundException, ForbiddenException } from 'fastify-http-exceptions/core';
 
 const app = Fastify();
 
@@ -171,36 +168,20 @@ You generally only need the published `fastify-http-exceptions` package, but the
 
 ---
 
-## Plugin Development (for Contributors)
+## Development
 
-If you want to contribute or run the plugin locally:
-
-```sh
-# from the repo root
+```bash
 pnpm install
-
-# type-check all packages
-pnpm tsgo
-
-# run Biome checks (format + lint)
-pnpm check
-
-# build all packages
+pnpm dev
+pnpm tsc # typescript-native
 pnpm build
+pnpm lint # oxlint
+pnpm lint:fix
+pnpm format # oxfmt
+pnpm test # vitest
 ```
 
-To run the demo app:
-
-```sh
-pnpm dev          # run all dev targets in parallel
-pnpm start        # start the basic-example demo
-```
-
-Make a release
-
-```sh
-pnpm make-release
-```
+To run the demo app: `pnpm dev` (all dev targets in parallel) or `pnpm start` (basic-example). To publish: `pnpm make-release`.
 
 ---
 

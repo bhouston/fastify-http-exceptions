@@ -1,13 +1,9 @@
 import { defineConfig } from 'vitest/config';
 import tsConfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
-
   plugins: [
     tsConfigPaths({
-        projects: [
-        './packages/fastify-http-exceptions/tsconfig.json',
-        './demos/basic-example/tsconfig.json',
-        ],
+      projects: ['./packages/fastify-http-exceptions/tsconfig.json', './demos/basic-example/tsconfig.json'],
     }),
   ],
   test: {
@@ -34,6 +30,3 @@ export default defineConfig({
     },
   },
 });
-
-
-
