@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildServer } from './server.ts';
+import { buildServer } from './server.js';
 
 describe('basic-example demo server', () => {
   it('returns 200 OK for an existing user', async () => {
