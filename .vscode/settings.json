@@ -19,5 +19,6 @@
   "oxc.useExecPath": true,
   "[json]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
-  }
+  },
+  "typescript.native-preview.tsdk": "/Users/bhouston/Coding/OpenSource/fastify-http-exceptions/node_modules/@typescript/native-preview"
 }

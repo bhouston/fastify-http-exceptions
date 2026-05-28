@@ -1,12 +1,10 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  resolve: {
-    tsconfigPaths: true,
-  },
   test: {
     watch: false,
     isolate: false,
+    exclude: ['**/node_modules/**', '**/coverage/**', '**/dist/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],
