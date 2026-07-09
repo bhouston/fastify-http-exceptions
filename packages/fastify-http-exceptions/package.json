@@ -57,9 +57,7 @@
     "fastify-plugin": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "^24",
-    "node-mocks-http": "^1.16.1",
-    "vitest": "^4.1.7"
+    "node-mocks-http": "^1.16.1"
   },
   "peerDependencies": {
     "fastify": "^5.0.0"

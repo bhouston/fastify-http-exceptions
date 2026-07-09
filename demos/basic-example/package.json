@@ -14,8 +14,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@vitest/ui": "^4.1.7",
-    "vitest": "^4.1.7"
+    "@vitest/ui": "^4.1.10"
   },
   "src": "src/index.ts"
 }
