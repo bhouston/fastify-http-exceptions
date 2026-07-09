@@ -177,7 +177,7 @@ If you want to contribute or run the plugin locally:
 pnpm install
 
 # type-check all packages
-pnpm tsgo
+pnpm tsc
 
 # run Biome checks (format + lint)
 pnpm check

@@ -173,7 +173,7 @@ You generally only need the published `fastify-http-exceptions` package, but the
 ```bash
 pnpm install
 pnpm dev
-pnpm tsc # typescript-native
+pnpm tsc
 pnpm build
 pnpm lint # oxlint
 pnpm lint:fix
