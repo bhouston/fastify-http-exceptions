@@ -1,0 +1,8 @@
+[
+  {
+    "name": "Published JavaScript (gzip)",
+    "path": "packages/fastify-http-exceptions/publish/dist/**/*.js",
+    "limit": "8 kB",
+    "gzip": true
+  }
+]

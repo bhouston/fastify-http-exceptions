@@ -1,0 +1,23 @@
+name: Feature or improvement
+description: Propose a feature, fix, or repository improvement.
+title: ''
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What should change, and why?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Observable outcomes that define completion.
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints
+      description: Compatibility, scope, and other requirements.
