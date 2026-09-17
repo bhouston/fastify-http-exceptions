@@ -181,7 +181,7 @@ pnpm format # oxfmt
 pnpm test # vitest
 ```
 
-To run the demo app: `pnpm dev` (all dev targets in parallel) or `pnpm start` (basic-example). To publish: `pnpm make-release`.
+To run the demo app: `pnpm dev` (all dev targets in parallel) or `pnpm start` (basic-example). See [CONTRIBUTING.md](CONTRIBUTING.md) for the issue/PR workflow and release setup. Releases publish automatically when `dev` is merged into `main`.
 
 ---
 
@@ -203,7 +203,7 @@ If you have suggestions, issues, or ideas for additional exception helpers, plea
 [npm-url]: https://www.npmjs.com/package/fastify-http-exceptions
 [npm-downloads]: https://img.shields.io/npm/dw/fastify-http-exceptions
 [npmtrends-url]: https://www.npmtrends.com/fastify-http-exceptions
-[tests-badge]: https://github.com/bhouston/fastify-http-exceptions/workflows/Tests/badge.svg
-[tests-url]: https://github.com/bhouston/fastify-http-exceptions/actions/workflows/test.yml
+[tests-badge]: https://github.com/bhouston/fastify-http-exceptions/actions/workflows/ci.yml/badge.svg
+[tests-url]: https://github.com/bhouston/fastify-http-exceptions/actions/workflows/ci.yml
 [coverage-badge]: https://codecov.io/gh/bhouston/fastify-http-exceptions/branch/main/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/bhouston/fastify-http-exceptions

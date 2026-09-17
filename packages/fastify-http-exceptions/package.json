@@ -25,7 +25,8 @@
     "dist",
     "package.json",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "type": "module",
   "main": "dist/index.js",
@@ -49,15 +50,14 @@
     "dev": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest",
-    "release": "pnpm build && rm -rf ./publish && mkdir ./publish && cp ./package.json ./publish/package.json && cp ../../LICENSE ./publish/LICENSE && cp ../../README.md ./publish/README.md && cp -r ./dist ./publish/dist && test -f ./publish/README.md || (echo 'ERROR: README.md not found in publish folder' && exit 1) && npm publish ./publish/ --access public",
     "tsc": "tsc"
   },
   "dependencies": {
-    "fastify": "^5.0.0",
-    "fastify-plugin": "^5.0.1"
+    "fastify": "^5.12.5",
+    "fastify-plugin": "^5.1.0"
   },
   "devDependencies": {
-    "node-mocks-http": "^1.16.1"
+    "node-mocks-http": "^1.18.1"
   },
   "peerDependencies": {
     "fastify": "^5.0.0"
