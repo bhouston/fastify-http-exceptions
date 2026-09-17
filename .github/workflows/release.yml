@@ -1,8 +1,12 @@
 name: Release
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Validate and preview the release without publishing
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -12,7 +16,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require dispatch from main
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::Release must be dispatched with --ref main (got ${{ github.ref }})."
+          exit 1
   checks:
+    needs: guard
     uses: ./.github/workflows/ci.yml
   publish:
     needs: checks
@@ -37,6 +50,12 @@ jobs:
       - run: pnpm build
       - run: pnpm release:prepare
       - name: Publish release
+        if: ${{ inputs.dry_run != true }}
         run: pnpm release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Dry-run release
+        if: ${{ inputs.dry_run == true }}
+        run: pnpm release --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

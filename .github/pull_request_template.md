@@ -8,6 +8,6 @@ Describe the problem and resulting behavior.
 
 List relevant checks and results.
 
-- [ ] Targets `dev` (or a release PR from `dev` to `main`).
+- [ ] Targets `main`.
 - [ ] Title and commits use Conventional Commits.
 - [ ] Tests, coverage, lint, type checks, dependency audit, and size check pass.

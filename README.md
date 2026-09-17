@@ -181,7 +181,7 @@ pnpm format # oxfmt
 pnpm test # vitest
 ```
 
-To run the demo app: `pnpm dev` (all dev targets in parallel) or `pnpm start` (basic-example). See [CONTRIBUTING.md](CONTRIBUTING.md) for the issue/PR workflow and release setup. Releases publish automatically when `dev` is merged into `main`.
+To run the demo app: `pnpm dev` (all dev targets in parallel) or `pnpm start` (basic-example). See [CONTRIBUTING.md](CONTRIBUTING.md) for the issue/PR workflow and release setup. Releases are published by manually running the `Release` workflow on `main`.
 
 ---
 

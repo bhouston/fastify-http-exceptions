@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main]
   pull_request:
-    branches: [main, dev]
+    branches: [main]
     types: [opened, synchronize, reopened, edited]
   workflow_call:
 
@@ -43,9 +43,7 @@ jobs:
         run: |
           node scripts/check-pr.mjs
           printf '%s\n' "$PR_TITLE" | pnpm exec commitlint
-          if [ "$BASE_BRANCH" = dev ]; then
-            pnpm exec commitlint --from "$BASE_SHA" --to "$HEAD_SHA"
-          fi
+          pnpm exec commitlint --from "$BASE_SHA" --to "$HEAD_SHA"
       - run: pnpm build
       - run: pnpm tsc
       - run: pnpm lint
