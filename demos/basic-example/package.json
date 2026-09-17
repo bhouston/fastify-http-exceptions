@@ -9,12 +9,12 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "fastify": "^5.0.0",
+    "fastify": "^5.12.5",
     "fastify-http-exceptions": "workspace:*",
-    "zod": "^3.24.2"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@vitest/ui": "^4.1.10"
+    "@vitest/ui": "^4.1.11"
   },
   "src": "src/index.ts"
 }
