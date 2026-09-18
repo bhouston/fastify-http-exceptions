@@ -8,20 +8,20 @@ export default {
     [
       '@semantic-release/changelog',
       {
-        changelogFile: 'packages/fastify-http-exceptions/publish/CHANGELOG.md',
+        changelogFile: 'packages/fastify-http-exceptions/CHANGELOG.md',
       },
     ],
     [
-      '@semantic-release/npm',
+      '@anolilab/semantic-release-pnpm',
       {
-        pkgRoot: 'packages/fastify-http-exceptions/publish',
+        pkgRoot: 'packages/fastify-http-exceptions',
         tarballDir: 'release-artifacts',
       },
     ],
     [
       '@semantic-release/github',
       {
-        assets: ['release-artifacts/*.tgz', 'packages/fastify-http-exceptions/publish/CHANGELOG.md'],
+        assets: ['release-artifacts/*.tgz', 'packages/fastify-http-exceptions/CHANGELOG.md'],
         successComment: false,
         failComment: false,
         releasedLabels: false,
