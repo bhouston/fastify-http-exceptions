@@ -9,7 +9,7 @@
     "dev": "pnpm -r --parallel dev",
     "start": "pnpm --filter basic-example start",
     "clean": "rimraf dist packages/**/dist demos/**/dist .nx node_modules packages/**/node_modules demos/**/node_modules",
-    "tsc": "tsc -b",
+    "tsc": "pnpm -r tsc",
     "test": "vitest run",
     "format": "oxfmt .",
     "lint": "oxlint .",
