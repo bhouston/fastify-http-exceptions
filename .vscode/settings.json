@@ -10,10 +10,8 @@
   "editor.codeActionsOnPaste": {
     "source.fixAll.oxc": "explicit"
   },
-
   "workbench.editor.enablePreview": false,
   "oxc.typeAware": true,
   "oxc.useExecPath": true,
-
   "editor.formatOnSaveMode": "file"
 }
