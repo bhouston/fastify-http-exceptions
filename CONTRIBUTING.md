@@ -9,7 +9,7 @@ This is the shared workflow standard for people, Claude, and Codex. Agent instru
 3. Implement and validate the change. Never commit directly to `main`. Keep unrelated workspace edits out of commits.
 4. Use Conventional Commits for every commit: `type(scope): description`. Scope is optional. Use `feat` for minor releases, `fix` for patches, and `!` after the type/scope or a `BREAKING CHANGE:` footer for major releases. `docs`, `chore`, `refactor`, `test`, `style`, `perf`, `build`, `ci`, and `revert` are also supported. `perf` triggers a patch; ordinary docs/chore/refactor/test/style/build/ci changes do not trigger releases. Reference the issue in the body when useful.
 5. Open a PR against `main`. Use a Conventional Commit title and include `Closes #42` for the branch's issue. Explain the behavior and validation. CI checks the branch name, closing reference, PR title, and every commit message. Resolve failures before merging.
-6. Squash feature PRs into `main`, retaining a Conventional Commit title and any breaking-change footer in the squash message. Check that the squash message expresses the highest release impact of the PR. Merging does not publish; releases are triggered separately (see below).
+6. Merge PRs into `main` with a merge commit; do not squash or rebase-merge. Keep a Conventional Commit PR title and put any breaking-change footer in the PR description. Merging does not publish; releases are triggered separately (see below).
 
 ## Local checks
 
