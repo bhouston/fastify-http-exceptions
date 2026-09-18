@@ -1,8 +1,10 @@
 {
   "extends": "../../tsconfig.node.json",
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "tsBuildInfoFile": "${configDir}/.tsbuildinfo"
   },
   "include": ["src"],
+  "exclude": ["src/**/*.test.ts", "src/**/*.spec.ts"],
   "references": []
 }

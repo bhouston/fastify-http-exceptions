@@ -45,10 +45,7 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Ensure npm supports trusted publishing
-        run: npm install --global npm@11
       - run: pnpm build
-      - run: pnpm release:prepare
       - name: Publish release
         if: ${{ inputs.dry_run != true }}
         run: pnpm release

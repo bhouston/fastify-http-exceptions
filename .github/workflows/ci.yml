@@ -51,13 +51,12 @@ jobs:
       - run: pnpm test:coverage
       - name: Audit dependencies
         run: pnpm audit --audit-level high
-      - run: pnpm release:prepare
       - name: Package size gate
         run: |
           pnpm size | tee size-report.txt
           cat size-report.txt >> "$GITHUB_STEP_SUMMARY"
       - name: Verify package contents
-        run: npm pack ./packages/fastify-http-exceptions/publish --dry-run
+        run: pnpm --filter fastify-http-exceptions pack --dry-run
       - uses: actions/upload-artifact@v4
         with:
           name: coverage

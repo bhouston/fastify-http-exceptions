@@ -22,9 +22,8 @@ pnpm tsc
 pnpm lint
 pnpm test:coverage
 pnpm audit --audit-level high
-pnpm release:prepare
 pnpm size
-npm pack ./packages/fastify-http-exceptions/publish --dry-run
+pnpm --filter fastify-http-exceptions pack --dry-run
 ```
 
 `pnpm install` installs Husky hooks. Pre-commit formats/lints staged files and checks types; commit-msg rejects invalid Conventional Commits. CI supplies enforcement if local hooks are bypassed. Coverage must reach 95% for statements, branches, functions, and lines over library source, including untested source files. Size-limit caps the prepared package's JavaScript at 8 kB gzip, excluding dependencies. Any intentional limit change needs an explanation in the PR. Dependency auditing fails for high or critical findings, including development dependencies.
@@ -55,7 +54,7 @@ The existing npm `1.3.0` release is anchored by `v1.3.0` at npm's recorded gitHe
 4. Configure `CODECOV_TOKEN` for reliable coverage uploads and the README coverage badge. Coverage thresholds are enforced locally in CI even if Codecov is unavailable.
 5. Validate the workflow with a dry run (`gh workflow run release.yml --ref main -f dry_run=true`) before the first real dispatch. Check the Actions run, npm version/provenance, and GitHub release assets on a real dispatch. A real publish cannot be validated locally; no npm token secret is required.
 
-The workflow uses GitHub-hosted runners, `id-token: write`, and npm 11 for [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/). GitHub's built-in `GITHUB_TOKEN` creates tags and releases; no personal access token is needed. See the [semantic-release GitHub Actions guidance](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions).
+The workflow uses GitHub-hosted runners and `id-token: write` for [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/), performed via `pnpm publish` (through `@anolilab/semantic-release-pnpm`) rather than `npm publish`. GitHub's built-in `GITHUB_TOKEN` creates tags and releases; no personal access token is needed. See the [semantic-release GitHub Actions guidance](https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions).
 
 ## Reusing this standard
 

@@ -4,6 +4,6 @@ node_modules
 _reference
 dist
 coverage
+*.tsbuildinfo
 
-packages/*/publish
 release-artifacts
