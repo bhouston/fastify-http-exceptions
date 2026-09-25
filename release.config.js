@@ -6,12 +6,6 @@ export default {
     ['@semantic-release/commit-analyzer', { preset: 'conventionalcommits' }],
     ['@semantic-release/release-notes-generator', { preset: 'conventionalcommits' }],
     [
-      '@semantic-release/changelog',
-      {
-        changelogFile: 'packages/fastify-http-exceptions/CHANGELOG.md',
-      },
-    ],
-    [
       '@anolilab/semantic-release-pnpm',
       {
         pkgRoot: 'packages/fastify-http-exceptions',
@@ -21,7 +15,7 @@ export default {
     [
       '@semantic-release/github',
       {
-        assets: ['release-artifacts/*.tgz', 'packages/fastify-http-exceptions/CHANGELOG.md'],
+        assets: ['release-artifacts/*.tgz'],
         successComment: false,
         failComment: false,
         releasedLabels: false,
