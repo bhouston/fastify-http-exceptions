@@ -1,7 +1,13 @@
-const { PR_BODY = '', BASE_BRANCH } = process.env;
-if (BASE_BRANCH !== 'main') {
-  throw new Error('PRs must target main.');
+import { readFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
+
+export function checkPullRequest(pr) {
+  if (pr.base.ref !== 'main') throw new Error('Contribution PRs must target main.');
+  const closing = /\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#\d+\b/i;
+  if (!closing.test(pr.body ?? '')) throw new Error('PR body must include Closes #<issue>.');
 }
-if (!/\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#\d+\b/i.test(PR_BODY)) {
-  throw new Error('PR description must include a closing reference such as Closes #42.');
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+  checkPullRequest(event.pull_request);
 }
