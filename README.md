@@ -4,6 +4,7 @@
 [![NPM Downloads][npm-downloads]][npmtrends-url]
 [![Tests][tests-badge]][tests-url]
 [![Coverage][coverage-badge]][coverage-url]
+[![Discord][discord-badge]][discord-url]
 
 **`fastify-http-exceptions`** is a small, opinionated Fastify plugin and core library for **typed HTTP exceptions**. It lets you throw HTTP exceptions with structured error payloads in your route handlers and have them automatically converted into proper Fastify responses. The core utilities are framework-agnostic; the Fastify plugin was created out of real-world need to simplify error handling in larger APIs.
 
@@ -49,3 +50,5 @@ To run the demo app: `pnpm dev` (all dev targets in parallel) or `pnpm start` (b
 [tests-url]: https://github.com/bhouston/fastify-http-exceptions/actions/workflows/ci.yml
 [coverage-badge]: https://codecov.io/gh/bhouston/fastify-http-exceptions/branch/main/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/bhouston/fastify-http-exceptions
+[discord-badge]: https://img.shields.io/badge/Discord-Join%20Chat-5865F2?logo=discord&logoColor=white
+[discord-url]: https://discord.gg/fwupDN493R
