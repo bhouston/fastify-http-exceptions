@@ -45,11 +45,11 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "tsrs",
+    "build": "tsc",
     "dev": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest",
-    "tsc": "tsrs"
+    "tsc": "tsc"
   },
   "dependencies": {
     "fastify": "^5.12.5",
