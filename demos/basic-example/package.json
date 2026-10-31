@@ -2,11 +2,11 @@
   "name": "basic-example",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsrs",
     "dev": "node --no-warnings --experimental-strip-types --experimental-transform-types --watch --watch-preserve-output src/server.ts",
     "start": "node --no-warnings --experimental-strip-types --experimental-transform-types src/server.ts",
     "test": "vitest run",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsrs --noEmit"
   },
   "dependencies": {
     "fastify": "^5.12.5",
