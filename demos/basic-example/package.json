@@ -11,7 +11,7 @@
   "dependencies": {
     "fastify": "^5.12.5",
     "fastify-http-exceptions": "workspace:*",
-    "zod": "^3.25.76"
+    "zod": "^4"
   },
   "devDependencies": {
     "@vitest/ui": "^5.0.5"
