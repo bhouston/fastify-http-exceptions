@@ -1,39 +1,34 @@
+<p align="center">
+  <a href="https://npmjs.com/package/fastify-http-exceptions"><img src="https://img.shields.io/npm/v/fastify-http-exceptions.svg" alt="npm package"></a>
+  <a href="https://www.npmtrends.com/fastify-http-exceptions"><img src="https://img.shields.io/npm/dw/fastify-http-exceptions.svg" alt="npm downloads"></a>
+  <a href="https://codecov.io/gh/bhouston/fastify-http-exceptions"><img src="https://codecov.io/gh/bhouston/fastify-http-exceptions/branch/main/graph/badge.svg" alt="coverage"></a>
+  <a href="https://discord.gg/fwupDN493R"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="discord chat"></a>
+</p>
+<br/>
+
 # Fastify HTTP Exceptions
 
-[![NPM Package][npm]][npm-url]
-[![NPM Downloads][npm-downloads]][npmtrends-url]
-[![Tests][tests-badge]][tests-url]
-[![Coverage][coverage-badge]][coverage-url]
-[![Discord][discord-badge]][discord-url]
+> Throw typed HTTP exceptions in Fastify handlers, get proper responses.
 
-**`fastify-http-exceptions`** is a small, opinionated Fastify plugin and core library for **typed HTTP exceptions**.
+- 🚨 Typed HTTP Exceptions
+- 📦 Structured JSON Errors
+- 🔁 Redirect Exceptions
+- 🔌 One Fastify Plugin
+- 🧰 Usable Without Fastify
 
-It lets you **throw HTTP exceptions with structured error payloads** in your route handlers and have them **automatically converted into proper Fastify responses**.  
-The core utilities are framework‑agnostic; the Fastify plugin was created out of real‑world need to simplify error handling in larger APIs.
+A small Fastify plugin and core library for typed HTTP exceptions. Throw an exception with a structured payload in your route handlers and the plugin converts it into a proper Fastify response. The core utilities are framework-agnostic; the plugin was created out of real-world need to simplify error handling in larger APIs.
 
-### Features
-
-- **Typed HTTP exception hierarchy**: `BadRequestException`, `UnauthorizedException`, `ForbiddenException`, `NotFoundException`, and many more.
-- **Consistent JSON error bodies**: 4xx/5xx errors are serialized as `{ error: string }`.
-- **Redirect support**: throw `TemporaryRedirectException` or `PermanentRedirectException` to drive redirects from your domain logic.
-- **Fastify integration**: a single plugin wraps Fastify’s error handler and converts exceptions into responses.
-- **Core-only helpers**: use the exception model without Fastify in other Node.js frameworks.
-
-> **Runtime requirements:** Node.js `>= 24` and Fastify `^5.0.0`. This is an **ESM-only** package.
+> **Runtime requirements:** Node.js `>= 22` and Fastify `^5.0.0`. This is an **ESM-only** package.
 
 ### Usage Warning
 
 - You must configure this plugin ahead of most other plugins, otherwise they may consume the exceptions themselves.
-
----
 
 ## Installation
 
 ```sh
 pnpm add fastify-http-exceptions fastify
 ```
-
----
 
 ## Basic Usage with Fastify
 
@@ -83,8 +78,6 @@ app.get('/old-endpoint', async () => {
 
 This results in a redirect response using the appropriate HTTP status code.
 
----
-
 ## Error Response Shape
 
 When an `HTTPException` (or compatible error) is thrown inside a Fastify route:
@@ -99,8 +92,6 @@ When an `HTTPException` (or compatible error) is thrown inside a Fastify route:
 ```
 
 The conversion logic is handled by `httpExceptionToResponse`, which is used internally by the Fastify plugin.
-
----
 
 ## Core-Only Usage (No Fastify)
 
@@ -138,8 +129,6 @@ try {
 
 This works in any Node.js HTTP framework or even in pure Node HTTP servers.
 
----
-
 ## Fastify Plugin Options
 
 The `fastify-http-exceptions` plugin accepts a small options object:
@@ -156,8 +145,6 @@ await app.register(fastifyHttpExceptions, {
 });
 ```
 
----
-
 ## Motivation
 
 This plugin was born out of the practical need to **standardize HTTP error handling in Fastify APIs**:
@@ -168,17 +155,14 @@ This plugin was born out of the practical need to **standardize HTTP error handl
 
 If you have suggestions, issues, or ideas for additional exception helpers, please open an issue or PR.
 
+## Contribution
+
+See [Contributing Guide](https://github.com/bhouston/fastify-http-exceptions/blob/main/CONTRIBUTING.md).
+
+## License
+
+MIT
+
 ## Author
 
-[Ben Houston](https://ben3d.ca), Sponsored by [Land of Assets](https://landofassets.com)
-
-[npm]: https://img.shields.io/npm/v/fastify-http-exceptions
-[npm-url]: https://www.npmjs.com/package/fastify-http-exceptions
-[npm-downloads]: https://img.shields.io/npm/dw/fastify-http-exceptions
-[npmtrends-url]: https://www.npmtrends.com/fastify-http-exceptions
-[tests-badge]: https://github.com/bhouston/fastify-http-exceptions/actions/workflows/ci.yml/badge.svg
-[tests-url]: https://github.com/bhouston/fastify-http-exceptions/actions/workflows/ci.yml
-[coverage-badge]: https://codecov.io/gh/bhouston/fastify-http-exceptions/branch/main/graph/badge.svg
-[coverage-url]: https://codecov.io/gh/bhouston/fastify-http-exceptions
-[discord-badge]: https://img.shields.io/badge/Discord-Join%20Chat-5865F2?logo=discord&logoColor=white
-[discord-url]: https://discord.gg/fwupDN493R
+[Ben Houston](https://ben3d.ca), Sponsored by [Land of Assets](https://landofassets.com).
