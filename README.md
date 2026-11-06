@@ -38,7 +38,11 @@ pnpm format # oxfmt
 pnpm test # vitest
 ```
 
-To run the demo app: `pnpm dev` (all dev targets in parallel) or `pnpm start` (basic-example). Releases are published by manually running the `Release` workflow on `main`; see [RELEASING.md](RELEASING.md).
+To run the demo app: `pnpm dev` (all dev targets in parallel) or `pnpm start` (basic-example).
+
+## Releases
+
+See [RELEASING.md](RELEASING.md) for how releases are published and [GitHub Releases](https://github.com/bhouston/fastify-http-exceptions/releases) for changes.
 
 ## Contribution
 
