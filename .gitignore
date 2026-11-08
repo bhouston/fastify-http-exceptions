@@ -7,3 +7,8 @@ coverage
 *.tsbuildinfo
 
 release-artifacts
+
+# Agent tooling
+.claude/
+.codex/
+.cursor/
